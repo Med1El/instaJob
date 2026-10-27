@@ -1,0 +1,28 @@
+{
+  "name": "ConcourNow — مباريات التوظيف",
+  "short_name": "ConcourNow",
+  "description": "Suivez les concours de la fonction publique marocaine correspondant à votre profil",
+  "start_url": "/ar/app/matches",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1d4ed8",
+  "orientation": "any",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["productivity", "business"]
+}
