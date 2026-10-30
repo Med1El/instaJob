@@ -28,7 +28,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: "npm"
           # package-lock.json is at the repo root (no ./app/ prefix)
           cache-dependency-path: package-lock.json
