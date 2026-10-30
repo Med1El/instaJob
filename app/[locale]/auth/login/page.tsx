@@ -21,7 +21,7 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
+    const { error: authError, data } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -32,8 +32,24 @@ export default function LoginPage() {
       return;
     }
 
-    // Middleware will handle redirect based on user status
-    router.push("/app/matches");
+    // Fetch profile to route admin vs regular user
+    const { data: profile } = await supabase
+      .from("users")
+      .select("user_role, status")
+      .eq("id", data.user!.id)
+      .single();
+
+    const p = profile as { user_role: string; status: string } | null;
+
+    if (p?.user_role === "admin") {
+      router.push("/admin/users");
+    } else if (!p || p.status === "pending") {
+      router.push("/auth/pending");
+    } else if (p.status === "inactive") {
+      router.push("/auth/inactive");
+    } else {
+      router.push("/app/matches");
+    }
     router.refresh();
   }
 

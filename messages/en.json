@@ -93,6 +93,7 @@
     "triggerScrape": "Run Scrape Now",
     "scrapeTriggered": "Scrape triggered successfully",
     "status": "Status",
+    "all": "All",
     "pending": "Pending",
     "active": "Active",
     "inactive": "Inactive",

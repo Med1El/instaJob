@@ -93,6 +93,7 @@
     "triggerScrape": "Lancer une analyse maintenant",
     "scrapeTriggered": "Analyse lancée avec succès",
     "status": "Statut",
+    "all": "Tous",
     "pending": "En attente",
     "active": "Actif",
     "inactive": "Inactif",

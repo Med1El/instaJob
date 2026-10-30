@@ -6,31 +6,31 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint .",
     "scrape": "node scripts/scraper.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.49.4",
-    "next": "16.4.3",
-    "next-intl": "^4.0.0",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
+    "next": "^15.3.3",
+    "next-intl": "^3.26.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "resend": "^4.0.0",
     "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
-    "@tailwindcss/turbopack": "^4",
+    "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/web-push": "^3.6.3",
     "eslint": "^9",
-    "eslint-config-next": "16.4.3",
+    "eslint-config-next": "^15.3.3",
     "playwright": "^1.49.0",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.1.10",
     "typescript": "^5"
   }
 }

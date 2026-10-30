@@ -7,7 +7,7 @@ CREATE TABLE public.users (
   id              uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email           text NOT NULL UNIQUE,
   name            text NOT NULL,
-  role            text NOT NULL DEFAULT 'user' CHECK (role IN ('user', 'admin')),
+  user_role       text NOT NULL DEFAULT 'user' CHECK (user_role IN ('user', 'admin')),
   status          text NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'active', 'inactive')),
   specialty_id    integer,
   diploma_id      integer,

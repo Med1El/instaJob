@@ -17,7 +17,7 @@ export interface Database {
           id: string;
           email: string;
           name: string;
-          role: "user" | "admin";
+          user_role: "user" | "admin";
           status: "pending" | "active" | "inactive";
           specialty_id: number | null;
           diploma_id: number | null;
@@ -31,7 +31,7 @@ export interface Database {
           id: string;
           email: string;
           name: string;
-          role?: "user" | "admin";
+          user_role?: "user" | "admin";
           status?: "pending" | "active" | "inactive";
           specialty_id?: number | null;
           diploma_id?: number | null;
@@ -45,7 +45,7 @@ export interface Database {
           id?: string;
           email?: string;
           name?: string;
-          role?: "user" | "admin";
+          user_role?: "user" | "admin";
           status?: "pending" | "active" | "inactive";
           specialty_id?: number | null;
           diploma_id?: number | null;

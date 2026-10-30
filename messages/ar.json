@@ -93,6 +93,7 @@
     "triggerScrape": "تشغيل الفحص الآن",
     "scrapeTriggered": "تم تشغيل الفحص بنجاح",
     "status": "الحالة",
+    "all": "الكل",
     "pending": "في الانتظار",
     "active": "نشط",
     "inactive": "معطّل",

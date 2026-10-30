@@ -7,23 +7,21 @@ const intlMiddleware = createMiddleware(routing);
 
 const protectedAppPaths = ["/app"];
 const adminPaths = ["/admin"];
-const authPaths = ["/auth"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Strip locale prefix for path checks
+  // Strip locale prefix to get the bare path
   const localeRegex = /^\/(ar|fr|en)(\/.*)?$/;
   const localMatch = pathname.match(localeRegex);
-  const localePath = localMatch ? localMatch[2] ?? "/" : pathname;
+  const localePath = localMatch ? (localMatch[2] ?? "/") : pathname;
+  const locale = localMatch ? localMatch[1] : routing.defaultLocale;
 
   const isProtectedApp = protectedAppPaths.some((p) => localePath.startsWith(p));
   const isAdminPath = adminPaths.some((p) => localePath.startsWith(p));
-  const isAuthPath = authPaths.some((p) => localePath.startsWith(p));
-  const locale = localMatch ? localMatch[1] : routing.defaultLocale;
 
   if (isProtectedApp || isAdminPath) {
-    // Validate session
+    // Build a response first so we can forward cookies
     const supabaseResponse = intlMiddleware(request);
 
     const supabase = createServerClient(
@@ -46,7 +44,9 @@ export async function middleware(request: NextRequest) {
       }
     );
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       const loginUrl = new URL(`/${locale}/auth/login`, request.url);
@@ -54,26 +54,34 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    // Fetch user profile to check status and role
+    // Check user_role / status (column renamed from 'role' to avoid PostgREST JWT conflict)
     const { data: profile } = await supabase
       .from("users")
-      .select("status, role")
+      .select("status, user_role")
       .eq("id", user.id)
       .single();
 
+    const typedProfile = profile as { user_role: string; status: string } | null;
+
     if (isAdminPath) {
-      if (!profile || profile.role !== "admin") {
-        return NextResponse.redirect(new URL(`/${locale}/app/matches`, request.url));
+      if (!typedProfile || typedProfile.user_role !== "admin") {
+        return NextResponse.redirect(
+          new URL(`/${locale}/auth/login`, request.url)
+        );
       }
       return supabaseResponse;
     }
 
     if (isProtectedApp) {
-      if (!profile || profile.status === "pending") {
-        return NextResponse.redirect(new URL(`/${locale}/auth/pending`, request.url));
+      if (!typedProfile || typedProfile.status === "pending") {
+        return NextResponse.redirect(
+          new URL(`/${locale}/auth/pending`, request.url)
+        );
       }
-      if (profile.status === "inactive") {
-        return NextResponse.redirect(new URL(`/${locale}/auth/inactive`, request.url));
+      if (typedProfile.status === "inactive") {
+        return NextResponse.redirect(
+          new URL(`/${locale}/auth/inactive`, request.url)
+        );
       }
       return supabaseResponse;
     }
@@ -84,7 +92,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Match all paths except static files, api routes, and Next.js internals
-    "/((?!_next/static|_next/image|favicon.ico|icons/|api/).*)",
+    // Skip Next.js internals, static files, api routes, and PWA assets
+    "/((?!_next/static|_next/image|favicon.ico|icons/|manifest.json|sw.js|api/).*)",
   ],
 };

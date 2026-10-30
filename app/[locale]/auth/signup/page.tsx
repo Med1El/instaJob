@@ -40,7 +40,7 @@ export default function SignupPage() {
       id: authData.user.id,
       email,
       name,
-      role: "user",
+      user_role: "user",
       status: "pending",
       notification_prefs: { email: true, push: false },
     });

@@ -1,5 +1,4 @@
-// Root layout — minimal, just sets <html> basics.
-// Actual locale/dir/lang is set in [locale]/layout.tsx
+// Minimal root layout — locale layout handles <html>/<body>
 export default function RootLayout({
   children,
 }: {
